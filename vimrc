@@ -10,23 +10,101 @@ syntax on
 
 ":inoremap <leader>w <esc>viw<esc>a"<esc>hbi"<esc>lela<space>
 
+:nnoremap <F6> <esc>:wq!<enter>
+:inoremap <F6> <esc>:wq!<enter>
 
-:inoremap <leader>q <esc>viw<esc>a"<esc>hbi"<esc>lela<space>
+:vnoremap <F9>  <S-<>
+:vnoremap <F10> <S->>
+
+
+:inoremap <leader>q <esc>viw<esc>a"<esc>hbi"<esc>lela
 :inoremap jk <esc>
 :inoremap <Tab> <C-x><C-n>
 
-" java file settings ---------------------- {{{
 
-:autocmd FileType java  :iabbrev <leader>p System.out.println("this is the test text.\n");
-:autocmd FileType java  :iabbrev <leader>c public<space>class<space>Hello<enter>{<enter><space><space><space><space>public<space>static<space>void<space>main(String[]<space>args)<enter><space><space><space><space>{<enter><enter><space><space><space><space>}<enter>}<up><up><space><space><space><space><space><space><space><space>
-:autocmd FileType java :iabbrev <leader>lp int<space>i;<enter>for(i<space>=<space>0;<space>i<space><<space>n;<space>i++)<enter>{<enter><space><space><space><space><enter>}<up><space><space><space>
+
+
+" html file settings ---------------------- {{{
+
+:autocmd FileType html  :iabbrev <leader>p console.log(1234);
+:autocmd FileType html  :inoremap <leader>rc <esc>iReact.createClass<enter>({<enter>render: function()<enter>{<enter><enter>}<enter>})<up><up>       <space>
+:autocmd FileType html  :inoremap <leader>rd <esc>iReactDOM.render(document.getElementById(""));<left><left><left>
+
+:autocmd FileType html  :inoremap <leader>4 :put %<enter>dd :w!<enter>:bd<enter>:edit <C-r>"<backspace><enter>
+:autocmd FileType html  :nnoremap <leader>4 :put %<enter>dd :w!<enter>:bd<enter>:edit <C-r>"<backspace><enter>
+
+
 
 " }}}
+
+
+
+
+
+" c file settings ---------------------- {{{
+
+
+:autocmd FileType c  :inoremap <leader>c <esc>i#include <stdio.h><enter>#include <stdlib.h><enter>#include <string.h><enter><enter>int main()<enter>{<enter>printf("%d \n", 1234);<enter>}
+
+:autocmd FileType c  :inoremap <leader>4 :put %<enter>dd :w!<enter>:bd<enter>:edit <C-r>"<backspace><enter>
+:autocmd FileType c  :nnoremap <leader>4 :put %<enter>dd :w!<enter>:bd<enter>:edit <C-r>"<backspace><enter>
+
+:autocmd FileType c  :iabbrev <leader>p printf("%s \n", "this is the tested string");
+
+
+" }}}
+
+
+
+
+
+
+
+
+
+
+
+
+" java file settings ---------------------- {{{
+
+:autocmd FileType java  :inoremap <leader>4 :put %<enter>dd :w!<enter>:bd<enter>:edit <C-r>"<backspace><enter>
+:autocmd FileType java  :nnoremap <leader>4 :put %<enter>dd :w!<enter>:bd<enter>:edit <C-r>"<backspace><enter>
+
+:autocmd FileType java  :inoremap <leader>v ()<left>
+:autocmd FileType java  :inoremap <leader>b []<left>
+:autocmd FileType java  :inoremap <leader>n <esc>o{<enter>}<left><space><space><space><space>
+:autocmd FileType java  :inoremap <leader>m <esc>ea<space>
+
+:autocmd FileType java  :iabbrev iff if()<left><left>
+:autocmd FileType java  :iabbrev whilee while()<left><left>
+
+:autocmd FileType java  :iabbrev <leader>p System.out.println("this is the test text.\n");
+
+:autocmd FileType java  :inoremap <leader>g ()<esc>bbipublic <esc>o{<enter>}<up><space><space><space><space> 
+
+:autocmd FileType java  :iabbrev <leader>c <esc>ipublic<space>class<space><esc>:put %<enter>$a<backspace><backspace><backspace><backspace><backspace><esc>bi<backspace><esc>o{<enter>public<space>static<space>void<space>main(String[]<space>args)<enter>{<enter><enter><left><left><left><left>}<enter><left><left><left><left>}<up><up>      <space>
+
+:autocmd FileType java  :iabbrev <leader>d <esc>i    public static void main(String[] args)<enter>{}<left><enter>
+
+
+:autocmd FileType java :iabbrev <leader>lp for (int<space>i<space>=<space>0;<space>i<space><<space>n;<space>i++)<enter>{<enter><space><enter>}<up>
+
+" }}}
+
+
 
 " python file settings ---------------------- {{{
 
 :autocmd FileType python     :iabbrev <leader>p print ("this is the text file")
+:autocmd FileType python     :iabbrev <leader>in def __init__(self):<enter>
+:autocmd FileType python     :iabbrev <leader>fun <esc>__init__(self):<enter>
+:autocmd FileType python     :iabbrev <leader>sf <left>(self):<esc>0widef <esc>$<left><left>i
+:autocmd FileType python     :iabbrev <leader>o <esc>o
+
 :autocmd FileType python     :iabbrev iff if:<left>
+
+
+
 
 " }}}
 
@@ -41,8 +119,19 @@ augroup END
 " }}}
 :setlocal foldmethod=marker
 :set hlsearch incsearch
+
+
+
+"configuration of indentation.
 :set autoindent
-:colorscheme zfmolokai
+:set expandtab ts=4 sw=4 ai
+:set smartindent
+
+
+
+
+
+:colorscheme molokai
 
 
 " compile file settings ---------------------- {{{
@@ -56,23 +145,17 @@ augroup END
 :autocmd FileType java       :map      <leader>3  :wq!<enter>
 :autocmd FileType java       :inoremap <leader>3  :wq!<enter>
 
+:autocmd FileType c          :map      <leader>1  <esc>:w!<enter><esc>:!c %<enter> :vsplit ctxt <enter>:vsplit ccompile<enter><enter>
+:autocmd FileType c          :inoremap <leader>1  <esc>:w!<enter><esc>:!c %<enter> :vsplit ctxt <enter>:vsplit ccompile<enter><enter>
 
+:autocmd FileType c          :map      <leader>2  :wincmd w<enter>:wincmd w<enter><C-w>o
+:autocmd FileType c          :inoremap <leader>2  :wincmd w<enter>:wincmd w<enter><C-w>o
 
 
 " }}}
 
 
-
-
-
-
-
-
-
-
-
-
-
+" :%retab
 
 
 
